@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+# Data about the file/object
+metadata:
+  name: myapp-replicaset
+  labels: 
+    # Useful for filtering and grouping
+    app: myapp
+spec:
+  # This ReplicaSet will manage the existing and new pods matching the below selector
+  selector:
+    matchLabels: 
+      # This label has nothing to do with the label of this ReplicaSet
+      app: myapp
+  replicas: 3
+  # If the number of pods go below 3 then the ReplicaSet controller/object will use the below template
+  # to create new pods as the pod label below matches the selector.
+  template: 
+    metadata:
+      name: nginx-2
+      labels:
+        app: myapp
+    spec: 
+      # Containers that will be running inside this pod
+      containers: 
+        - name: nginx
+          # This image is pulled from docker hub
+          image: nginx
